@@ -1,23 +1,5 @@
-var mongo = require('mongodb');
- 
-var Server = mongo.Server,
-Db = mongo.Db,
-BSON = mongo.BSONPure;
- 
-var server = new Server('localhost', 27017, {auto_reconnect: true}); 
-db = new Db('quest', server);
-
-db.open(function(err, db) {
-	if(!err) {
-		console.log("Connected to 'quest' database");
-		db.collection('questions', {strict:true}, function(err, collection) {
-			if (err) {
-				console.log("The 'quest' collection doesn't exist. Creating it with sample data...");
-				populateDB();
-			}
-		});
-	}
-}); 
+var db_connect = require('./../db_connect');
+var db = db_connect.getmyDB();
 
 exports.findById = function(req, res) {
 	var id = req.params.id;
@@ -29,8 +11,27 @@ exports.findById = function(req, res) {
 	});
 }; 
 
-//TO-DO: implement find10
+//get the top 10 questions when the user refreshes
+exports.refresh = function(req,res) {
+	db.collection('questions',function(err, collection) {
+		sort = {'_id': -1};
+		collection.find().sort(sort).limit(10).toArray(function(err, items) {
+			res.send(items);
+		});
+	});
+};
 
+//update the feed with 10 questions earlier than the specified id
+exports.updateFeed = function(req,res) {
+	var id = req.params.id;
+	db.collection('questions', function(err, collection) {
+		collection.find( {"_id":{$lt:id}}, limit=10).sort({'id':-1}).toArray(function(err, items) {
+			re.send(items);
+		});
+	});
+};
+
+//get all the questions from the database
 exports.findAll = function(req, res) {
 	db.collection('questions', function(err, collection) {
 		collection.find().toArray(function(err, items) {
@@ -39,7 +40,7 @@ exports.findAll = function(req, res) {
 	});
 }; 
 
-
+//insert question
 exports.addQuestion = function(req, res) {
 	console.log(req.body)
 	var question = req.body;

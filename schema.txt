@@ -6,10 +6,13 @@ users:
 questions:
 	_id : ObjectId
 	question : String
-	ownerid : _id
+	owner_id : user_id
+	answer_flag : String
 	answer : [rating 
-				{value : Float}]
+				value : Floaat]
+			 []
+	category: String
 
-			 [choice:
-			 	{answer_count_dict: Dictionary}]
+session:
+	user_id: 
 			 
