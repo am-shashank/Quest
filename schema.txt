@@ -1,0 +1,15 @@
+database schema
+users:
+	_id : ObejctId
+	fb_id : String
+
+questions:
+	_id : ObjectId
+	question : String
+	ownerid : _id
+	answer : [rating 
+				{value : Float}]
+
+			 [choice:
+			 	{answer_count_dict: Dictionary}]
+			 
