@@ -45,6 +45,17 @@ exports.findAll = function(req, res) {
 //insert question
 exports.addQuestion = function(req, res) {
 	console.log(req.body);
+
+	for(var attributename in req.body){
+    	//console.log(attributename+": "+myobject[attributename]);
+    	if(req.body.hasOwnProperty(attributename))
+	    {	
+	    	console.log("Attribute name: "+ attributename);
+	    	if(!isNaN(req.body[attributename])) 
+	    		req.body[attributename] = parseInt(req.body[attributename]);
+	     	console.log(req.body[attributename]);
+	     }
+	}
 	var question = req.body;
 	console.log('Adding question: ' + JSON.stringify(question));
 	db.collection('questions', function(err, collection) {
@@ -59,7 +70,9 @@ exports.addQuestion = function(req, res) {
 	});
 } 
 
+
 exports.createUser = function(req,res) {
+	//decoded_req = decodeURI(req);
 	console.log(req.body);
 	var user_info = req.body;
 	console.log('Adding info: ' + JSON.stringify(user_info));
@@ -69,7 +82,11 @@ exports.createUser = function(req,res) {
 				res.send({'error':'An error has occurred'});
 			else {
 				console.log('Success: '+ JSON.stringify(result[0]));
+<<<<<<< HEAD
 				res.send("Success");
+=======
+				res.send(0);
+>>>>>>> 7b37f6789ded6e856668f8cac2e0b92641610d85
 			}
 		});
 	});

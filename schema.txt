@@ -9,7 +9,7 @@ questions:
 	owner_id : user_id
 	answer_flag : String
 	answer : [rating 
-				value : Floaat]
+				value : Float]
 			 []
 	category: String
 

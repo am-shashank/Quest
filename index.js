@@ -10,7 +10,7 @@ app.configure(function () {
 }); 
 
 app.post('/service/createUser',user.createUser)
-app.get('/', user.findAll);
+app.get('/', user.refresh);
 app.post('/addQuestion',user.addQuestion);
 app.get('/updateFeed/:q_id',user.updateFeed);
 app.get('/refresh',user.refresh);
