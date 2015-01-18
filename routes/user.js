@@ -82,11 +82,7 @@ exports.createUser = function(req,res) {
 				res.send({'error':'An error has occurred'});
 			else {
 				console.log('Success: '+ JSON.stringify(result[0]));
-<<<<<<< HEAD
-				res.send("Success");
-=======
 				res.send(0);
->>>>>>> 7b37f6789ded6e856668f8cac2e0b92641610d85
 			}
 		});
 	});
