@@ -14,6 +14,7 @@ app.get('/', user.refresh);
 app.post('/addQuestion',user.addQuestion);
 app.get('/updateFeed/:q_id',user.updateFeed);
 app.get('/refresh',user.refresh);
+app.get('/updatePollForQuestion', user.updatePollForQuestion);
  
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
