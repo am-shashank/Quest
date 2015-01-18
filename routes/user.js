@@ -69,11 +69,29 @@ exports.createUser = function(req,res) {
 				res.send({'error':'An error has occurred'});
 			else {
 				console.log('Success: '+ JSON.stringify(result[0]));
-				re.send("Success");
+				res.send("Success");
 			}
-			});
 		});
-	}
+	});
+}
+/*
+exports.updatePollForQuestion = function(req, res) {
+        var q_id = req.body.question;
+	db.collection('questions', function(err, collection) {
+        	db.collection.update({"_id":q_id}, {$inc:{}});
+*/
+
+exports.updatePollForQuestion = function(req, res) {
+	var q_id = ObjectID(req.body.question);
+	var option = req.body.option;
+	//TODO conver to objectid
+	
+	db.questions.update({"_id":q_id}, {$inc:{option:1}});
+	res.send("Success");
+}
+
+
+			
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.
 // You'd typically not find this code in a real-life app, since the database would already exist.
