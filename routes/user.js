@@ -1,5 +1,6 @@
 var db_connect = require('./../db_connect');
 var db = db_connect.getmyDB();
+var ObjectID = require('mongodb').ObjectID;
 
 exports.findById = function(req, res) {
 	var id = req.params.id;
@@ -23,10 +24,11 @@ exports.refresh = function(req,res) {
 
 //update the feed with 10 questions earlier than the specified id
 exports.updateFeed = function(req,res) {
-	var id = req.params.id;
+	var id = ObjectID(req.params.q_id);
 	db.collection('questions', function(err, collection) {
-		collection.find( {"_id":{$lt:id}}, limit=10).sort({'id':-1}).toArray(function(err, items) {
-			re.send(items);
+		collection.find( {"_id":{$lt:id}}).sort({'_id':-1}).limit(10).toArray(function(err, items) {
+		//collection.find().sort({'id':-1}).toArray(function(err, items) {
+			res.send(items);
 		});
 	});
 };
@@ -42,7 +44,7 @@ exports.findAll = function(req, res) {
 
 //insert question
 exports.addQuestion = function(req, res) {
-	console.log(req.body)
+	console.log(req.body);
 	var question = req.body;
 	console.log('Adding question: ' + JSON.stringify(question));
 	db.collection('questions', function(err, collection) {
@@ -51,34 +53,27 @@ exports.addQuestion = function(req, res) {
 				res.send({'error':'An error has occurred'});
 			} else {
 				console.log('Success: ' + JSON.stringify(result[0]));
-				res.send(result[0]);
+				res.send("Success");
 			}
 		});
 	});
 } 
 
-
+exports.createUser = function(req,res) {
+	console.log(req.body);
+	var user_info = req.body;
+	console.log('Adding info: ' + JSON.stringify(user_info));
+	db.collection('users', function(err,collection) {
+		collection.insert(user_info , {safe:true}, function(err,result) {
+			if(err)
+				res.send({'error':'An error has occurred'});
+			else {
+				console.log('Success: '+ JSON.stringify(result[0]));
+				re.send("Success");
+			}
+			});
+		});
+	}
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.
 // You'd typically not find this code in a real-life app, since the database would already exist.
-var populateDB = function() {
- 
-	var questions = [
-	{
-		"question" : "Are you horny?",
-		"owner_id" : "Ameya",
-		"answer_flag" : "Boolean",
-		"answer" : "Hell yeah...!!"
-	},
-	{
-		"question" : "Do you want to poop?",
-		"owner_id" : "Ashmeet",
-		"answer_flag" : "Boolean",
-		"answer" : "Haan be...!!"
-	}];
-	 
-	db.collection('questions', function(err, collection) {
-		collection.insert(questions, {safe:true}, function(err, result) {});
-	});
- 
-}; 

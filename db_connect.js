@@ -20,3 +20,25 @@ exports.getmyDB = function () {
 	}); 
 	return db;
 }
+
+var populateDB = function() {
+ 
+	var questions = [
+	{
+		"question" : "Are you horny?",
+		"owner_id" : "Ameya",
+		"answer_flag" : "Boolean",
+		"answer" : "Hell yeah...!!"
+	},
+	{
+		"question" : "Do you want to poop?",
+		"owner_id" : "Ashmeet",
+		"answer_flag" : "Boolean",
+		"answer" : "Haan be...!!"
+	}];
+	 
+	db.collection('questions', function(err, collection) {
+		collection.insert(questions, {safe:true}, function(err, result) {});
+	});
+ 
+}; 
